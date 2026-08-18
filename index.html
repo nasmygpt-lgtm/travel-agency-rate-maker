@@ -208,10 +208,10 @@
             background: #f9f9f9;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
-            font-family: 'Georgia', serif;
-            line-height: 1.9;
+            font-family: Tahoma, Geneva, sans-serif;
+            line-height: 1.8;
             color: #333;
-            font-size: 15px;
+            font-size: 11pt;
         }
 
         .offer-output p {
@@ -225,8 +225,8 @@
         .offer-output table td {
             padding: 5px 12px 5px 0;
             vertical-align: top;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 14px;
+            font-family: Tahoma, Geneva, sans-serif;
+            font-size: 11pt;
         }
 
         .btn-copy {
@@ -463,7 +463,7 @@
             const checkin = new Date(parsed.checkin);
             const checkout = new Date(parsed.checkout);
             const rooms = parsed.rooms || 1;
-            const guestName = parsed.guestName || 'Sir/Madam';
+            const guestName = 'Team';
             const nightCount = Math.round((checkout - checkin) / (1000 * 60 * 60 * 24));
 
             if (nightCount <= 0) {
@@ -504,36 +504,38 @@
 
             // Build the offer
             document.getElementById('offerOutput').innerHTML = `
-                <p>Dear <strong>${guestName}</strong>,</p>
+                <div style="font-family: Tahoma, Geneva, sans-serif; font-size: 11pt; line-height: 1.8; color: #333;">
+                <p>Dear <strong>Team</strong>,</p>
                 <p>Greetings from <strong>Grand Central Hotel</strong>...!</p>
                 <p>Thank you very much for your inquiry.</p>
                 <p>We are pleased to offer you the <strong>Deluxe Room</strong> at the below rates for your request:</p>
-                <table>
+                <table style="font-family: Tahoma, Geneva, sans-serif; font-size: 11pt;">
                     <tr>
-                        <td><strong>Check-in:</strong></td>
-                        <td>${checkinDisplay}</td>
+                        <td style="padding: 4px 12px 4px 0;"><strong>Check-in:</strong></td>
+                        <td style="padding: 4px 0;">${checkinDisplay}</td>
                     </tr>
                     <tr>
-                        <td><strong>Check-out:</strong></td>
-                        <td>${checkoutDisplay}</td>
+                        <td style="padding: 4px 12px 4px 0;"><strong>Check-out:</strong></td>
+                        <td style="padding: 4px 0;">${checkoutDisplay}</td>
                     </tr>
                     <tr>
-                        <td><strong>Duration:</strong></td>
-                        <td>${nightCount} Night(s)</td>
+                        <td style="padding: 4px 12px 4px 0;"><strong>Duration:</strong></td>
+                        <td style="padding: 4px 0;">${nightCount} Night(s)</td>
                     </tr>
                     <tr>
-                        <td><strong>Rooms:</strong></td>
-                        <td>${rooms}</td>
+                        <td style="padding: 4px 12px 4px 0;"><strong>Rooms:</strong></td>
+                        <td style="padding: 4px 0;">${rooms}</td>
                     </tr>
                     <tr>
-                        <td><strong>Room Rate:</strong></td>
-                        <td>AED ${rate.roomRate} + ${rate.tax} (${taxLabel}) per night</td>
+                        <td style="padding: 4px 12px 4px 0;"><strong>Room Rate:</strong></td>
+                        <td style="padding: 4px 0;">AED ${rate.roomRate} + ${rate.tax} (${taxLabel}) per night</td>
                     </tr>
                     ${eventLines}
                 </table>
-                <p style="margin-top: 20px;">Kindly review the above details and let us know if you would like to proceed with the booking.</p>
+                <p style="margin-top: 16px;">Kindly review the above details and let us know if you would like to proceed with the booking.</p>
                 <p>Please note these rates and room availability are valid for <strong>72 hours</strong> from the date of this communication.</p>
                 <p>Should you have any further concerns or feedback, please do not hesitate to reach out to us directly.</p>
+                </div>
             `;
 
             // Show results
