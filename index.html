@@ -48,27 +48,6 @@
             padding: 30px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #2c3e50;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        select,
         textarea {
             width: 100%;
             padding: 12px 16px;
@@ -79,134 +58,9 @@
             font-family: inherit;
         }
 
-        input[type="text"]:focus,
-        input[type="date"]:focus,
-        input[type="number"]:focus,
-        select:focus,
         textarea:focus {
             outline: none;
             border-color: #3498db;
-        }
-
-        .btn-calculate {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 10px;
-        }
-
-        .btn-calculate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-        }
-
-        .btn-calculate:active {
-            transform: translateY(0);
-        }
-
-        .results {
-            margin-top: 30px;
-            display: none;
-        }
-
-        .results.show {
-            display: block;
-        }
-
-        .results-header {
-            background: #f8f9fa;
-            padding: 15px 20px;
-            border-radius: 8px 8px 0 0;
-            border: 1px solid #e0e0e0;
-            border-bottom: none;
-        }
-
-        .results-header h3 {
-            color: #2c3e50;
-        }
-
-        .results-table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid #e0e0e0;
-            border-radius: 0 0 8px 8px;
-            overflow: hidden;
-        }
-
-        .results-table th {
-            background: #2c3e50;
-            color: white;
-            padding: 12px 16px;
-            text-align: left;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .results-table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 14px;
-        }
-
-        .results-table tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-
-        .results-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .highlight-row {
-            background: #fff3cd !important;
-            font-weight: 600;
-        }
-
-        .event-badge {
-            display: inline-block;
-            background: #e74c3c;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-left: 5px;
-        }
-
-        .summary-box {
-            margin-top: 20px;
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-        }
-
-        .summary-box h3 {
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .summary-row:last-child {
-            border-bottom: none;
-            padding-top: 12px;
-            margin-top: 5px;
-            border-top: 2px solid rgba(255, 255, 255, 0.3);
-            font-size: 18px;
-            font-weight: 700;
         }
 
         .rate-info {
@@ -254,58 +108,9 @@
             padding: 4px 8px;
         }
 
-        .email-greeting {
-            margin-bottom: 20px;
-            padding: 25px;
-            background: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            font-family: 'Georgia', serif;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .btn-copy {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-copy:hover {
-            background: #219a52;
-        }
-
-        .btn-print {
-            display: inline-block;
-            margin-top: 15px;
-            margin-left: 10px;
-            padding: 10px 20px;
-            background: #8e44ad;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-print:hover {
-            background: #7d3c98;
-        }
-
         /* Paste Inquiry Section */
         .paste-section {
             margin-top: 20px;
-            margin-bottom: 25px;
             padding: 20px;
             background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
             border-radius: 12px;
@@ -325,7 +130,7 @@
         }
 
         .paste-section textarea {
-            min-height: 120px;
+            min-height: 140px;
             resize: vertical;
             border-color: #a5d6a7;
             background: white;
@@ -335,80 +140,133 @@
             border-color: #4caf50;
         }
 
-        .btn-parse {
+        .btn-generate {
             display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #4caf50, #66bb6a);
+            margin-top: 12px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 14px;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .btn-parse:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.4);
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
         }
 
-        .btn-clear-paste {
+        .btn-clear {
             display: inline-block;
-            margin-top: 10px;
+            margin-top: 12px;
             margin-left: 10px;
-            padding: 10px 20px;
+            padding: 12px 24px;
             background: #ef5350;
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 14px;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.3s;
         }
 
-        .btn-clear-paste:hover {
+        .btn-clear:hover {
             background: #e53935;
         }
 
-        .parse-result {
+        .parse-error {
             margin-top: 12px;
             padding: 12px;
             border-radius: 6px;
             font-size: 13px;
             display: none;
-        }
-
-        .parse-result.success {
-            display: block;
-            background: #e8f5e9;
-            border: 1px solid #a5d6a7;
-            color: #2e7d32;
-        }
-
-        .parse-result.error {
-            display: block;
             background: #ffebee;
             border: 1px solid #ef9a9a;
             color: #c62828;
         }
 
-        .parse-result ul {
-            margin-top: 8px;
-            padding-left: 20px;
+        .parse-error.show {
+            display: block;
         }
 
-        .parse-result li {
-            margin-bottom: 4px;
+        /* Results / Offer Section */
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .offer-output {
+            padding: 30px;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Georgia', serif;
+            line-height: 1.9;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .offer-output p {
+            margin-bottom: 12px;
+        }
+
+        .offer-output table {
+            margin: 15px 0;
+        }
+
+        .offer-output table td {
+            padding: 5px 12px 5px 0;
+            vertical-align: top;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+        }
+
+        .btn-copy {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-copy:hover {
+            background: #219a52;
+        }
+
+        .btn-print {
+            display: inline-block;
+            margin-top: 20px;
+            margin-left: 10px;
+            padding: 12px 24px;
+            background: #8e44ad;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-print:hover {
+            background: #7d3c98;
         }
 
         @media (max-width: 600px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
             .container {
                 border-radius: 0;
             }
@@ -417,16 +275,8 @@
                 padding: 0;
             }
 
-            .results-table {
-                font-size: 12px;
-            }
-
-            .results-table th,
-            .results-table td {
-                padding: 8px 10px;
-            }
-
-            .summary-row {
+            .offer-output {
+                padding: 20px;
                 font-size: 14px;
             }
         }
@@ -441,14 +291,14 @@
                 box-shadow: none;
             }
 
-            .btn-calculate,
-            .btn-copy,
-            .btn-print,
             .rate-info,
             .events-info,
             .paste-section,
-            form {
-                display: none;
+            .btn-copy,
+            .btn-print,
+            .btn-generate,
+            .btn-clear {
+                display: none !important;
             }
 
             .results {
@@ -521,8 +371,8 @@
 
             <!-- Paste Inquiry Section -->
             <div class="paste-section">
-                <h4>📋 Quick Fill — Paste Booking Inquiry</h4>
-                <p>Paste the guest inquiry from email/WhatsApp below and click "Auto Fill" to populate the form automatically.</p>
+                <h4>📋 Paste Booking Inquiry</h4>
+                <p>Paste the guest inquiry from email/WhatsApp and click <strong>"Generate Offer"</strong> to create the rate offer instantly.</p>
                 <textarea id="pasteArea" placeholder="Paste booking inquiry here... Examples:
 
 • Stay Dates: 2 - 6 November 2026, Guests: 1 Adult
@@ -535,50 +385,18 @@
   Check Out: 17th Oct 2026
   Room Requirements: 11 Rooms"></textarea>
                 <div>
-                    <button type="button" class="btn-parse" onclick="parseInquiry()">🔍 Auto Fill Form</button>
-                    <button type="button" class="btn-clear-paste" onclick="clearPaste()">✕ Clear</button>
+                    <button type="button" class="btn-generate" onclick="generateOffer()">💰 Generate Offer</button>
+                    <button type="button" class="btn-clear" onclick="clearAll()">✕ Clear</button>
                 </div>
-                <div class="parse-result" id="parseResult"></div>
+                <div class="parse-error" id="parseError"></div>
             </div>
 
-            <!-- Booking Form -->
-            <form id="rateForm" style="margin-top: 25px;">
-                <div class="form-group">
-                    <label for="guestName">👤 Guest / Agent Name</label>
-                    <input type="text" id="guestName" placeholder="e.g. Piumi" required>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="checkin">📅 Check-in Date</label>
-                        <input type="date" id="checkin" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="checkout">📅 Check-out Date</label>
-                        <input type="date" id="checkout" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="rooms">🚪 Number of Rooms</label>
-                        <input type="number" id="rooms" min="1" value="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="extraBeds">🛏️ Extra Beds (per room)</label>
-                        <input type="number" id="extraBeds" min="0" value="0">
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-calculate">💰 Calculate Rates</button>
-            </form>
-
-            <!-- Results Section -->
+            <!-- Results / Offer Section -->
             <div class="results" id="results">
-                <div class="email-greeting" id="emailGreeting"></div>
+                <div class="offer-output" id="offerOutput"></div>
 
                 <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn-copy" onclick="copyResults()">📋 Copy to Clipboard</button>
+                    <button class="btn-copy" onclick="copyOffer()">📋 Copy to Clipboard</button>
                     <button class="btn-print" onclick="window.print()">🖨️ Print</button>
                 </div>
             </div>
@@ -618,60 +436,124 @@
         };
 
         // =============================================
-        // PASTE & PARSE INQUIRY
+        // GENERATE OFFER
         // =============================================
 
-        function parseInquiry() {
+        function generateOffer() {
             const text = document.getElementById('pasteArea').value.trim();
-            const resultDiv = document.getElementById('parseResult');
+            const errorDiv = document.getElementById('parseError');
+            errorDiv.classList.remove('show');
 
             if (!text) {
-                resultDiv.className = 'parse-result error';
-                resultDiv.innerHTML = '⚠️ Please paste a booking inquiry first.';
+                errorDiv.innerHTML = '⚠️ Please paste a booking inquiry first.';
+                errorDiv.classList.add('show');
                 return;
             }
 
+            // Parse the inquiry
             const parsed = extractBookingInfo(text);
-            const filled = [];
 
-            // Fill check-in date
-            if (parsed.checkin) {
-                document.getElementById('checkin').value = parsed.checkin;
-                filled.push(`✅ Check-in: ${parsed.checkin}`);
+            if (!parsed.checkin || !parsed.checkout) {
+                errorDiv.innerHTML = '⚠️ Could not detect check-in/check-out dates. Please check the pasted text.';
+                errorDiv.classList.add('show');
+                return;
             }
 
-            // Fill check-out date
-            if (parsed.checkout) {
-                document.getElementById('checkout').value = parsed.checkout;
-                document.getElementById('checkout').min = parsed.checkin || '';
-                filled.push(`✅ Check-out: ${parsed.checkout}`);
+            // Calculate details
+            const checkin = new Date(parsed.checkin);
+            const checkout = new Date(parsed.checkout);
+            const rooms = parsed.rooms || 1;
+            const guestName = parsed.guestName || 'Sir/Madam';
+            const nightCount = Math.round((checkout - checkin) / (1000 * 60 * 60 * 24));
+
+            if (nightCount <= 0) {
+                errorDiv.innerHTML = '⚠️ Check-out must be after check-in date.';
+                errorDiv.classList.add('show');
+                return;
             }
 
-            // Fill rooms
-            if (parsed.rooms) {
-                document.getElementById('rooms').value = parsed.rooms;
-                filled.push(`✅ Rooms: ${parsed.rooms}`);
+            // Get rate
+            const rate = getSeasonRate(checkin);
+            const taxLabel = rate.season.includes('TD') ? 'TD' : 'BB';
+
+            // Check for events during stay
+            const currentDate = new Date(checkin);
+            const eventsFound = [];
+            while (currentDate < checkout) {
+                const event = getEventForDate(currentDate);
+                if (event && !eventsFound.find(e => e.name === event.name)) {
+                    eventsFound.push(event);
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
             }
 
-            // Fill guest name
-            if (parsed.guestName) {
-                document.getElementById('guestName').value = parsed.guestName;
-                filled.push(`✅ Guest Name: ${parsed.guestName}`);
+            let eventLines = '';
+            if (eventsFound.length > 0) {
+                eventLines = eventsFound.map(ev =>
+                    `<tr><td><strong>Event Supplement (${ev.name}):</strong></td><td>AED ${ev.supplement} per night</td></tr>`
+                ).join('');
             }
 
-            // Show result
-            if (filled.length > 0) {
-                resultDiv.className = 'parse-result success';
-                resultDiv.innerHTML = `<strong>🎉 Auto-filled ${filled.length} field(s):</strong><ul>${filled.map(f => `<li>${f}</li>`).join('')}</ul>`;
-            } else {
-                resultDiv.className = 'parse-result error';
-                resultDiv.innerHTML = '⚠️ Could not extract booking details. Please fill the form manually.';
-            }
+            // Format dates
+            const checkinDisplay = checkin.toLocaleDateString('en-GB', {
+                day: '2-digit', month: 'long', year: 'numeric'
+            });
+            const checkoutDisplay = checkout.toLocaleDateString('en-GB', {
+                day: '2-digit', month: 'long', year: 'numeric'
+            });
+
+            // Build the offer
+            document.getElementById('offerOutput').innerHTML = `
+                <p>Dear <strong>${guestName}</strong>,</p>
+                <p>Greetings from <strong>Grand Central Hotel</strong>...!</p>
+                <p>Thank you very much for your inquiry.</p>
+                <p>We are pleased to offer you the <strong>Deluxe Room</strong> at the below rates for your request:</p>
+                <table>
+                    <tr>
+                        <td><strong>Check-in:</strong></td>
+                        <td>${checkinDisplay}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Check-out:</strong></td>
+                        <td>${checkoutDisplay}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Duration:</strong></td>
+                        <td>${nightCount} Night(s)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rooms:</strong></td>
+                        <td>${rooms}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Room Rate:</strong></td>
+                        <td>AED ${rate.roomRate} + ${rate.tax} (${taxLabel}) per night</td>
+                    </tr>
+                    ${eventLines}
+                </table>
+                <p style="margin-top: 20px;">Kindly review the above details and let us know if you would like to proceed with the booking.</p>
+                <p>Please note these rates and room availability are valid for <strong>72 hours</strong> from the date of this communication.</p>
+                <p>Should you have any further concerns or feedback, please do not hesitate to reach out to us directly.</p>
+            `;
+
+            // Show results
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
         }
+
+        function clearAll() {
+            document.getElementById('pasteArea').value = '';
+            document.getElementById('parseError').classList.remove('show');
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('offerOutput').innerHTML = '';
+        }
+
+        // =============================================
+        // PARSE BOOKING INFO
+        // =============================================
 
         function extractBookingInfo(text) {
             const result = {};
-            const normalizedText = text.toLowerCase();
 
             // ---- EXTRACT DATES ----
 
@@ -744,15 +626,10 @@
         }
 
         /**
-         * Parse flexible date formats like:
-         * "20th October 2026", "15th Oct 2026", "2 November 2026", "23rd October 2026"
-         * "2026-10-20", "20/10/2026", "Oct 15, 2026"
+         * Parse flexible date formats
          */
         function parseFlexibleDate(str) {
-            // Remove extra whitespace
             str = str.replace(/\s+/g, ' ').trim();
-
-            // Remove anything after the date (like extra notes)
             str = str.split('\n')[0].trim();
 
             // Try: "20th October 2026" or "2 November 2026" or "15th Oct 2026"
@@ -802,7 +679,6 @@
         }
 
         function guessYear(month) {
-            // If month is in the past for current year, assume next year
             const now = new Date();
             const currentMonth = now.getMonth();
             const currentYear = now.getFullYear();
@@ -810,38 +686,22 @@
             return currentYear;
         }
 
-        function clearPaste() {
-            document.getElementById('pasteArea').value = '';
-            const resultDiv = document.getElementById('parseResult');
-            resultDiv.className = 'parse-result';
-            resultDiv.innerHTML = '';
-        }
-
         // =============================================
         // UTILITY FUNCTIONS
         // =============================================
 
-        /**
-         * Get the seasonal rate based on the date
-         */
         function getSeasonRate(date) {
-            const month = date.getMonth(); // 0 = Jan, 8 = Sep
+            const month = date.getMonth();
 
             if (month === 8) {
-                // September
                 return { season: "September (BB)", roomRate: 135, tax: 15, extraBedRate: 95 };
             } else if (month >= 9 || month <= 2) {
-                // October (9) through March (2)
                 return { season: "Oct–Mar (TD)", roomRate: 290, tax: 15, extraBedRate: 135 };
             } else {
-                // April (3) through August (7)
                 return { season: "Apr–Aug (BB)", roomRate: 135, tax: 15, extraBedRate: 95 };
             }
         }
 
-        /**
-         * Check if a date falls within any event period
-         */
         function getEventForDate(date) {
             const dateStr = formatDate(date);
             for (const event of events) {
@@ -852,9 +712,6 @@
             return null;
         }
 
-        /**
-         * Format date as YYYY-MM-DD for comparison
-         */
         function formatDate(date) {
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -862,132 +719,14 @@
             return `${year}-${month}-${day}`;
         }
 
-        /**
-         * Format date for display (e.g., "Mon, 08 Nov 2026")
-         */
-        function formatDateDisplay(date) {
-            return date.toLocaleDateString('en-GB', {
-                weekday: 'short',
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric'
-            });
-        }
-
-        // =============================================
-        // FORM HANDLING
-        // =============================================
-
-        document.getElementById('rateForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Get form values
-            const guestName = document.getElementById('guestName').value.trim();
-            const checkin = new Date(document.getElementById('checkin').value);
-            const checkout = new Date(document.getElementById('checkout').value);
-            const rooms = parseInt(document.getElementById('rooms').value);
-            const extraBeds = parseInt(document.getElementById('extraBeds').value) || 0;
-
-            // Validate dates
-            if (checkout <= checkin) {
-                alert('Check-out date must be after check-in date!');
-                return;
-            }
-
-            // Calculate nights
-            const nightCount = Math.round((checkout - checkin) / (1000 * 60 * 60 * 24));
-
-            // Get rate for check-in date (base rate)
-            const rate = getSeasonRate(checkin);
-            const taxLabel = rate.season.includes('TD') ? 'TD' : 'BB';
-
-            // Check for events during stay
-            let eventLines = '';
-            const currentDate = new Date(checkin);
-            const eventsFound = [];
-            while (currentDate < checkout) {
-                const event = getEventForDate(currentDate);
-                if (event && !eventsFound.find(e => e.name === event.name)) {
-                    eventsFound.push(event);
-                }
-                currentDate.setDate(currentDate.getDate() + 1);
-            }
-
-            if (eventsFound.length > 0) {
-                eventLines = eventsFound.map(ev =>
-                    `<tr><td style="padding: 4px 0;"><strong>Event Supplement (${ev.name}):</strong></td><td>AED ${ev.supplement} per night</td></tr>`
-                ).join('');
-            }
-
-            // Format dates for display
-            const checkinDisplay = checkin.toLocaleDateString('en-GB', {
-                day: '2-digit', month: 'long', year: 'numeric'
-            });
-            const checkoutDisplay = checkout.toLocaleDateString('en-GB', {
-                day: '2-digit', month: 'long', year: 'numeric'
-            });
-
-            document.getElementById('emailGreeting').innerHTML = `
-                <p style="margin-bottom: 12px;">Dear <strong>${guestName}</strong>,</p>
-                <p style="margin-bottom: 12px;">Greetings from <strong>Grand Central Hotel</strong>...!</p>
-                <p style="margin-bottom: 12px;">Thank you very much for your inquiry.</p>
-                <p style="margin-bottom: 20px;">We are pleased to offer you the <strong>Deluxe Room</strong> at the below rates for your request:</p>
-                <table style="width: 100%; font-family: 'Segoe UI', sans-serif; font-size: 14px; margin-bottom: 15px;">
-                    <tr>
-                        <td style="padding: 4px 0;"><strong>Check-in:</strong></td>
-                        <td>${checkinDisplay}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 4px 0;"><strong>Check-out:</strong></td>
-                        <td>${checkoutDisplay}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 4px 0;"><strong>Duration:</strong></td>
-                        <td>${nightCount} Night(s)</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 4px 0;"><strong>Rooms:</strong></td>
-                        <td>${rooms}</td>
-                    </tr>
-                    ${extraBeds > 0 ? `
-                    <tr>
-                        <td style="padding: 4px 0;"><strong>Extra Beds:</strong></td>
-                        <td>${extraBeds} per room</td>
-                    </tr>` : ''}
-                    <tr>
-                        <td style="padding: 4px 0;"><strong>Room Rate:</strong></td>
-                        <td>AED ${rate.roomRate} + ${rate.tax} (${taxLabel}) per night</td>
-                    </tr>
-                    ${extraBeds > 0 ? `
-                    <tr>
-                        <td style="padding: 4px 0;"><strong>Extra Bed:</strong></td>
-                        <td>AED ${rate.extraBedRate} per night</td>
-                    </tr>` : ''}
-                    ${eventLines}
-                </table>
-            `;
-
-            // Show results and scroll to them
-            document.getElementById('results').classList.add('show');
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-        });
-
-        // =============================================
-        // DATE INPUT CONSTRAINTS
-        // =============================================
-
-        document.getElementById('checkin').addEventListener('change', function() {
-            document.getElementById('checkout').min = this.value;
-        });
-
         // =============================================
         // COPY TO CLIPBOARD
         // =============================================
 
-        function copyResults() {
-            const resultsDiv = document.getElementById('results');
+        function copyOffer() {
+            const offerDiv = document.getElementById('offerOutput');
             const range = document.createRange();
-            range.selectNodeContents(resultsDiv);
+            range.selectNodeContents(offerDiv);
 
             const selection = window.getSelection();
             selection.removeAllRanges();
@@ -995,12 +734,10 @@
 
             try {
                 document.execCommand('copy');
-                alert('✅ Results copied to clipboard!');
+                alert('✅ Offer copied to clipboard!');
             } catch (err) {
-                // Fallback: copy text content
-                const textContent = resultsDiv.innerText;
-                navigator.clipboard.writeText(textContent).then(() => {
-                    alert('✅ Results copied to clipboard!');
+                navigator.clipboard.writeText(offerDiv.innerText).then(() => {
+                    alert('✅ Offer copied to clipboard!');
                 }).catch(() => {
                     alert('❌ Unable to copy. Please select and copy manually.');
                 });
