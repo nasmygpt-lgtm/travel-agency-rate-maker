@@ -577,27 +577,6 @@
             <div class="results" id="results">
                 <div class="email-greeting" id="emailGreeting"></div>
 
-                <div class="results-header">
-                    <h3>📊 Nightly Breakdown</h3>
-                </div>
-
-                <table class="results-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Season</th>
-                            <th>Room Rate</th>
-                            <th>Event</th>
-                            <th>Supplement</th>
-                            <th>Extra Bed</th>
-                            <th>Total/Room</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultsBody"></tbody>
-                </table>
-
-                <div class="summary-box" id="summaryBox"></div>
-
                 <div style="text-align: center; margin-top: 20px;">
                     <button class="btn-copy" onclick="copyResults()">📋 Copy to Clipboard</button>
                     <button class="btn-print" onclick="window.print()">🖨️ Print</button>
@@ -915,102 +894,32 @@
                 return;
             }
 
-            // Clear previous results
-            const resultsBody = document.getElementById('resultsBody');
-            resultsBody.innerHTML = '';
+            // Calculate nights
+            const nightCount = Math.round((checkout - checkin) / (1000 * 60 * 60 * 24));
 
-            // Calculate nightly breakdown
-            let totalRoomCharges = 0;
-            let totalTax = 0;
-            let totalSupplements = 0;
-            let totalExtraBed = 0;
-            let nightCount = 0;
+            // Get rate for check-in date (base rate)
+            const rate = getSeasonRate(checkin);
+            const taxLabel = rate.season.includes('TD') ? 'TD' : 'BB';
 
+            // Check for events during stay
+            let eventLines = '';
             const currentDate = new Date(checkin);
-
+            const eventsFound = [];
             while (currentDate < checkout) {
-                nightCount++;
-
-                const rate = getSeasonRate(currentDate);
                 const event = getEventForDate(currentDate);
-                const supplement = event ? event.supplement : 0;
-                const extraBedCost = extraBeds * rate.extraBedRate;
-                const nightRoomTotal = rate.roomRate + rate.tax + supplement + extraBedCost;
-
-                // Accumulate totals
-                totalRoomCharges += rate.roomRate;
-                totalTax += rate.tax;
-                totalSupplements += supplement;
-                totalExtraBed += extraBedCost;
-
-                // Build table row
-                const row = document.createElement('tr');
-                if (event) row.classList.add('highlight-row');
-
-                const taxLabel = rate.season.includes('TD') ? 'TD' : 'BB';
-                row.innerHTML = `
-                    <td>${formatDateDisplay(currentDate)}</td>
-                    <td>${rate.season}</td>
-                    <td>AED ${rate.roomRate} + ${rate.tax} (${taxLabel})</td>
-                    <td>${event ? event.name + ' <span class="event-badge">EVENT</span>' : '—'}</td>
-                    <td>${supplement > 0 ? 'AED ' + supplement : '—'}</td>
-                    <td>${extraBeds > 0 ? 'AED ' + extraBedCost : '—'}</td>
-                    <td><strong>AED ${nightRoomTotal}</strong></td>
-                `;
-
-                resultsBody.appendChild(row);
+                if (event && !eventsFound.find(e => e.name === event.name)) {
+                    eventsFound.push(event);
+                }
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
-            // Calculate totals
-            const totalPerRoom = totalRoomCharges + totalTax + totalSupplements + totalExtraBed;
-            const grandTotal = totalPerRoom * rooms;
+            if (eventsFound.length > 0) {
+                eventLines = eventsFound.map(ev =>
+                    `<tr><td style="padding: 4px 0;"><strong>Event Supplement (${ev.name}):</strong></td><td>AED ${ev.supplement} per night</td></tr>`
+                ).join('');
+            }
 
-            // Render summary box
-            const summaryBox = document.getElementById('summaryBox');
-            summaryBox.innerHTML = `
-                <h3>💰 Cost Summary</h3>
-                <div class="summary-row">
-                    <span>Number of Nights:</span>
-                    <span>${nightCount}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Number of Rooms:</span>
-                    <span>${rooms}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Extra Beds per Room:</span>
-                    <span>${extraBeds}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Room Charges (${nightCount} nights):</span>
-                    <span>AED ${totalRoomCharges.toFixed(2)}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tourism Dirham (TD):</span>
-                    <span>AED ${totalTax.toFixed(2)}</span>
-                </div>
-                ${totalSupplements > 0 ? `
-                <div class="summary-row">
-                    <span>Event Supplements:</span>
-                    <span>AED ${totalSupplements.toFixed(2)}</span>
-                </div>` : ''}
-                ${totalExtraBed > 0 ? `
-                <div class="summary-row">
-                    <span>Extra Bed Charges:</span>
-                    <span>AED ${totalExtraBed.toFixed(2)}</span>
-                </div>` : ''}
-                <div class="summary-row">
-                    <span>Total per Room:</span>
-                    <span>AED ${totalPerRoom.toFixed(2)}</span>
-                </div>
-                <div class="summary-row">
-                    <span>🏷️ GRAND TOTAL (${rooms} room${rooms > 1 ? 's' : ''}):</span>
-                    <span>AED ${grandTotal.toFixed(2)}</span>
-                </div>
-            `;
-
-            // Render email greeting
+            // Format dates for display
             const checkinDisplay = checkin.toLocaleDateString('en-GB', {
                 day: '2-digit', month: 'long', year: 'numeric'
             });
@@ -1045,11 +954,17 @@
                         <td style="padding: 4px 0;"><strong>Extra Beds:</strong></td>
                         <td>${extraBeds} per room</td>
                     </tr>` : ''}
+                    <tr>
+                        <td style="padding: 4px 0;"><strong>Room Rate:</strong></td>
+                        <td>AED ${rate.roomRate} + ${rate.tax} (${taxLabel}) per night</td>
+                    </tr>
+                    ${extraBeds > 0 ? `
+                    <tr>
+                        <td style="padding: 4px 0;"><strong>Extra Bed:</strong></td>
+                        <td>AED ${rate.extraBedRate} per night</td>
+                    </tr>` : ''}
+                    ${eventLines}
                 </table>
-                <hr style="border: none; border-top: 1px solid #ddd; margin: 15px 0;">
-                <p style="font-size: 13px; color: #666;">
-                    <em>Please find the detailed rate breakdown below:</em>
-                </p>
             `;
 
             // Show results and scroll to them
