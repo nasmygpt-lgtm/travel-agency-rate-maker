@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Agency Rate Maker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .btn-calculate {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-calculate:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .results-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid #e0e0e0;
+            border-bottom: none;
+        }
+
+        .results-header h3 {
+            color: #2c3e50;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #e0e0e0;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+        }
+
+        .results-table th {
+            background: #2c3e50;
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .results-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .results-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .highlight-row {
+            background: #fff3cd !important;
+            font-weight: 600;
+        }
+
+        .event-badge {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .summary-box {
+            margin-top: 20px;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .summary-box h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            padding-top: 12px;
+            margin-top: 5px;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .rate-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eaf4fe;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .rate-info h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .rate-info table {
+            width: 100%;
+            font-size: 13px;
+        }
+
+        .rate-info table td {
+            padding: 4px 8px;
+        }
+
+        .events-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fef3e8;
+            border-radius: 8px;
+            border-left: 4px solid #e67e22;
+        }
+
+        .events-info h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .events-info table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+
+        .events-info table td {
+            padding: 4px 8px;
+        }
+
+        .email-greeting {
+            margin-bottom: 20px;
+            padding: 25px;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .btn-copy {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-copy:hover {
+            background: #219a52;
+        }
+
+        .btn-print {
+            display: inline-block;
+            margin-top: 15px;
+            margin-left: 10px;
+            padding: 10px 20px;
+            background: #8e44ad;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-print:hover {
+            background: #7d3c98;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                border-radius: 0;
+            }
+
+            body {
+                padding: 0;
+            }
+
+            .results-table {
+                font-size: 12px;
+            }
+
+            .results-table th,
+            .results-table td {
+                padding: 8px 10px;
+            }
+
+            .summary-row {
+                font-size: 14px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .btn-calculate,
+            .btn-copy,
+            .btn-print,
+            .rate-info,
+            .events-info,
+            form {
+                display: none;
+            }
+
+            .results {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏨 Travel Agency Rate Maker</h1>
+            <p>Hotel Rate Calculator with Seasonal Pricing & Event Supplements</p>
+        </div>
+
+        <div class="content">
+            <!-- Rate Card Info -->
+            <div class="rate-info">
+                <h4>📋 Rate Card</h4>
+                <table>
+                    <tr>
+                        <td><strong>September:</strong></td>
+                        <td>AED 135 + 15 (BB) | Extra Bed: AED 95</td>
+                    </tr>
+                    <tr>
+                        <td><strong>October – March:</strong></td>
+                        <td>AED 290 + 15 Tourism Dirham (TD) | Extra Bed: AED 135</td>
+                    </tr>
+                    <tr>
+                        <td><strong>April – August:</strong></td>
+                        <td>AED 135 + 15 (BB) | Extra Bed: AED 95</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Event Supplements Info -->
+            <div class="events-info">
+                <h4>🎉 Event Supplements (per night)</h4>
+                <table>
+                    <tr>
+                        <td>Diwali (08–12 Nov 2026)</td>
+                        <td><strong>AED 60</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Big 5 Global (23–26 Nov 2026)</td>
+                        <td><strong>AED 60</strong></td>
+                    </tr>
+                    <tr>
+                        <td>New Year (29 Dec 2026 – 01 Jan 2027)</td>
+                        <td><strong>AED 300</strong></td>
+                    </tr>
+                    <tr>
+                        <td>World Health Expo (25–28 Jan 2027)</td>
+                        <td><strong>AED 200</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Eid Al Fitr (10–12 Mar 2027)</td>
+                        <td><strong>AED 50</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Gulf Food (15–19 Mar 2027)</td>
+                        <td><strong>AED 200</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Eid Al Adha (16–18 May 2027)</td>
+                        <td><strong>AED 50</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Booking Form -->
+            <form id="rateForm" style="margin-top: 25px;">
+                <div class="form-group">
+                    <label for="guestName">👤 Guest / Agent Name</label>
+                    <input type="text" id="guestName" placeholder="e.g. Piumi" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="checkin">📅 Check-in Date</label>
+                        <input type="date" id="checkin" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout">📅 Check-out Date</label>
+                        <input type="date" id="checkout" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rooms">🚪 Number of Rooms</label>
+                        <input type="number" id="rooms" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="extraBeds">🛏️ Extra Beds (per room)</label>
+                        <input type="number" id="extraBeds" min="0" value="0">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-calculate">💰 Calculate Rates</button>
+            </form>
+
+            <!-- Results Section -->
+            <div class="results" id="results">
+                <div class="email-greeting" id="emailGreeting"></div>
+
+                <div class="results-header">
+                    <h3>📊 Nightly Breakdown</h3>
+                </div>
+
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Season</th>
+                            <th>Room Rate</th>
+                            <th>Event</th>
+                            <th>Supplement</th>
+                            <th>Extra Bed</th>
+                            <th>Total/Room</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody"></tbody>
+                </table>
+
+                <div class="summary-box" id="summaryBox"></div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn-copy" onclick="copyResults()">📋 Copy to Clipboard</button>
+                    <button class="btn-print" onclick="window.print()">🖨️ Print</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // EVENT SUPPLEMENTS DATA
+        // =============================================
+        const events = [
+            { name: "Diwali", start: "2026-11-08", end: "2026-11-12", supplement: 60 },
+            { name: "Big 5 Global", start: "2026-11-23", end: "2026-11-26", supplement: 60 },
+            { name: "New Year", start: "2026-12-29", end: "2027-01-01", supplement: 300 },
+            { name: "World Health Expo (WHX)", start: "2027-01-25", end: "2027-01-28", supplement: 200 },
+            { name: "Eid Al Fitr", start: "2027-03-10", end: "2027-03-12", supplement: 50 },
+            { name: "Gulf Food", start: "2027-03-15", end: "2027-03-19", supplement: 200 },
+            { name: "Eid Al Adha", start: "2027-05-16", end: "2027-05-18", supplement: 50 }
+        ];
+
+        // =============================================
+        // UTILITY FUNCTIONS
+        // =============================================
+
+        /**
+         * Get the seasonal rate based on the date
+         */
+        function getSeasonRate(date) {
+            const month = date.getMonth(); // 0 = Jan, 8 = Sep
+
+            if (month === 8) {
+                // September
+                return { season: "September (BB)", roomRate: 135, tax: 15, extraBedRate: 95 };
+            } else if (month >= 9 || month <= 2) {
+                // October (9) through March (2)
+                return { season: "Oct–Mar (TD)", roomRate: 290, tax: 15, extraBedRate: 135 };
+            } else {
+                // April (3) through August (7)
+                return { season: "Apr–Aug (BB)", roomRate: 135, tax: 15, extraBedRate: 95 };
+            }
+        }
+
+        /**
+         * Check if a date falls within any event period
+         */
+        function getEventForDate(date) {
+            const dateStr = formatDate(date);
+            for (const event of events) {
+                if (dateStr >= event.start && dateStr <= event.end) {
+                    return event;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * Format date as YYYY-MM-DD for comparison
+         */
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        /**
+         * Format date for display (e.g., "Mon, 08 Nov 2026")
+         */
+        function formatDateDisplay(date) {
+            return date.toLocaleDateString('en-GB', {
+                weekday: 'short',
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        // =============================================
+        // FORM HANDLING
+        // =============================================
+
+        document.getElementById('rateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const guestName = document.getElementById('guestName').value.trim();
+            const checkin = new Date(document.getElementById('checkin').value);
+            const checkout = new Date(document.getElementById('checkout').value);
+            const rooms = parseInt(document.getElementById('rooms').value);
+            const extraBeds = parseInt(document.getElementById('extraBeds').value) || 0;
+
+            // Validate dates
+            if (checkout <= checkin) {
+                alert('Check-out date must be after check-in date!');
+                return;
+            }
+
+            // Clear previous results
+            const resultsBody = document.getElementById('resultsBody');
+            resultsBody.innerHTML = '';
+
+            // Calculate nightly breakdown
+            let totalRoomCharges = 0;
+            let totalTax = 0;
+            let totalSupplements = 0;
+            let totalExtraBed = 0;
+            let nightCount = 0;
+
+            const currentDate = new Date(checkin);
+
+            while (currentDate < checkout) {
+                nightCount++;
+
+                const rate = getSeasonRate(currentDate);
+                const event = getEventForDate(currentDate);
+                const supplement = event ? event.supplement : 0;
+                const extraBedCost = extraBeds * rate.extraBedRate;
+                const nightRoomTotal = rate.roomRate + rate.tax + supplement + extraBedCost;
+
+                // Accumulate totals
+                totalRoomCharges += rate.roomRate;
+                totalTax += rate.tax;
+                totalSupplements += supplement;
+                totalExtraBed += extraBedCost;
+
+                // Build table row
+                const row = document.createElement('tr');
+                if (event) row.classList.add('highlight-row');
+
+                row.innerHTML = `
+                    <td>${formatDateDisplay(currentDate)}</td>
+                    <td>${rate.season}</td>
+                    <td>AED ${rate.roomRate} + ${rate.tax}</td>
+                    <td>${event ? event.name + ' <span class="event-badge">EVENT</span>' : '—'}</td>
+                    <td>${supplement > 0 ? 'AED ' + supplement : '—'}</td>
+                    <td>${extraBeds > 0 ? 'AED ' + extraBedCost : '—'}</td>
+                    <td><strong>AED ${nightRoomTotal}</strong></td>
+                `;
+
+                resultsBody.appendChild(row);
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            // Calculate totals
+            const totalPerRoom = totalRoomCharges + totalTax + totalSupplements + totalExtraBed;
+            const grandTotal = totalPerRoom * rooms;
+
+            // Render summary box
+            const summaryBox = document.getElementById('summaryBox');
+            summaryBox.innerHTML = `
+                <h3>💰 Cost Summary</h3>
+                <div class="summary-row">
+                    <span>Number of Nights:</span>
+                    <span>${nightCount}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Number of Rooms:</span>
+                    <span>${rooms}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Extra Beds per Room:</span>
+                    <span>${extraBeds}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Room Charges (${nightCount} nights):</span>
+                    <span>AED ${totalRoomCharges.toFixed(2)}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax / Service Charge:</span>
+                    <span>AED ${totalTax.toFixed(2)}</span>
+                </div>
+                ${totalSupplements > 0 ? `
+                <div class="summary-row">
+                    <span>Event Supplements:</span>
+                    <span>AED ${totalSupplements.toFixed(2)}</span>
+                </div>` : ''}
+                ${totalExtraBed > 0 ? `
+                <div class="summary-row">
+                    <span>Extra Bed Charges:</span>
+                    <span>AED ${totalExtraBed.toFixed(2)}</span>
+                </div>` : ''}
+                <div class="summary-row">
+                    <span>Total per Room:</span>
+                    <span>AED ${totalPerRoom.toFixed(2)}</span>
+                </div>
+                <div class="summary-row">
+                    <span>🏷️ GRAND TOTAL (${rooms} room${rooms > 1 ? 's' : ''}):</span>
+                    <span>AED ${grandTotal.toFixed(2)}</span>
+                </div>
+            `;
+
+            // Render email greeting
+            const checkinDisplay = checkin.toLocaleDateString('en-GB', {
+                day: '2-digit', month: 'long', year: 'numeric'
+            });
+            const checkoutDisplay = checkout.toLocaleDateString('en-GB', {
+                day: '2-digit', month: 'long', year: 'numeric'
+            });
+
+            document.getElementById('emailGreeting').innerHTML = `
+                <p style="margin-bottom: 12px;">Dear <strong>${guestName}</strong>,</p>
+                <p style="margin-bottom: 12px;">Greetings from <strong>Grand Central Hotel, Dubai</strong>...!</p>
+                <p style="margin-bottom: 12px;">Thank you very much for your inquiry.</p>
+                <p style="margin-bottom: 20px;">We are pleased to offer you the following package for your stay at <strong>Grand Central Hotel</strong>:</p>
+                <table style="width: 100%; font-family: 'Segoe UI', sans-serif; font-size: 14px; margin-bottom: 15px;">
+                    <tr>
+                        <td style="padding: 4px 0;"><strong>Check-in:</strong></td>
+                        <td>${checkinDisplay}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 4px 0;"><strong>Check-out:</strong></td>
+                        <td>${checkoutDisplay}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 4px 0;"><strong>Duration:</strong></td>
+                        <td>${nightCount} Night(s)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 4px 0;"><strong>Rooms:</strong></td>
+                        <td>${rooms}</td>
+                    </tr>
+                    ${extraBeds > 0 ? `
+                    <tr>
+                        <td style="padding: 4px 0;"><strong>Extra Beds:</strong></td>
+                        <td>${extraBeds} per room</td>
+                    </tr>` : ''}
+                </table>
+                <hr style="border: none; border-top: 1px solid #ddd; margin: 15px 0;">
+                <p style="font-size: 13px; color: #666;">
+                    <em>Please find the detailed rate breakdown below:</em>
+                </p>
+            `;
+
+            // Show results and scroll to them
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // =============================================
+        // DATE INPUT CONSTRAINTS
+        // =============================================
+
+        document.getElementById('checkin').addEventListener('change', function() {
+            document.getElementById('checkout').min = this.value;
+        });
+
+        // =============================================
+        // COPY TO CLIPBOARD
+        // =============================================
+
+        function copyResults() {
+            const resultsDiv = document.getElementById('results');
+            const range = document.createRange();
+            range.selectNodeContents(resultsDiv);
+
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            try {
+                document.execCommand('copy');
+                alert('✅ Results copied to clipboard!');
+            } catch (err) {
+                // Fallback: copy text content
+                const textContent = resultsDiv.innerText;
+                navigator.clipboard.writeText(textContent).then(() => {
+                    alert('✅ Results copied to clipboard!');
+                }).catch(() => {
+                    alert('❌ Unable to copy. Please select and copy manually.');
+                });
+            }
+
+            selection.removeAllRanges();
+        }
+    </script>
+</body>
+</html>
