@@ -68,19 +68,22 @@
         input[type="text"],
         input[type="date"],
         input[type="number"],
-        select {
+        select,
+        textarea {
             width: 100%;
             padding: 12px 16px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-size: 15px;
             transition: border-color 0.3s;
+            font-family: inherit;
         }
 
         input[type="text"]:focus,
         input[type="date"]:focus,
         input[type="number"]:focus,
-        select:focus {
+        select:focus,
+        textarea:focus {
             outline: none;
             border-color: #3498db;
         }
@@ -299,6 +302,108 @@
             background: #7d3c98;
         }
 
+        /* Paste Inquiry Section */
+        .paste-section {
+            margin-top: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 12px;
+            border: 2px dashed #4caf50;
+        }
+
+        .paste-section h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .paste-section p {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .paste-section textarea {
+            min-height: 120px;
+            resize: vertical;
+            border-color: #a5d6a7;
+            background: white;
+        }
+
+        .paste-section textarea:focus {
+            border-color: #4caf50;
+        }
+
+        .btn-parse {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-parse:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-clear-paste {
+            display: inline-block;
+            margin-top: 10px;
+            margin-left: 10px;
+            padding: 10px 20px;
+            background: #ef5350;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-clear-paste:hover {
+            background: #e53935;
+        }
+
+        .parse-result {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .parse-result.success {
+            display: block;
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            color: #2e7d32;
+        }
+
+        .parse-result.error {
+            display: block;
+            background: #ffebee;
+            border: 1px solid #ef9a9a;
+            color: #c62828;
+        }
+
+        .parse-result ul {
+            margin-top: 8px;
+            padding-left: 20px;
+        }
+
+        .parse-result li {
+            margin-bottom: 4px;
+        }
+
         @media (max-width: 600px) {
             .form-row {
                 grid-template-columns: 1fr;
@@ -341,6 +446,7 @@
             .btn-print,
             .rate-info,
             .events-info,
+            .paste-section,
             form {
                 display: none;
             }
@@ -411,6 +517,28 @@
                         <td><strong>AED 50</strong></td>
                     </tr>
                 </table>
+            </div>
+
+            <!-- Paste Inquiry Section -->
+            <div class="paste-section">
+                <h4>📋 Quick Fill — Paste Booking Inquiry</h4>
+                <p>Paste the guest inquiry from email/WhatsApp below and click "Auto Fill" to populate the form automatically.</p>
+                <textarea id="pasteArea" placeholder="Paste booking inquiry here... Examples:
+
+• Stay Dates: 2 - 6 November 2026, Guests: 1 Adult
+
+• ARRIVAL DATE: 20th October 2026
+  DEPARTURE DATE: 23rd October 2026
+  ROOMS REQUIREMENTS: 10 Rooms
+
+• Check In: 15th Oct 2026
+  Check Out: 17th Oct 2026
+  Room Requirements: 11 Rooms"></textarea>
+                <div>
+                    <button type="button" class="btn-parse" onclick="parseInquiry()">🔍 Auto Fill Form</button>
+                    <button type="button" class="btn-clear-paste" onclick="clearPaste()">✕ Clear</button>
+                </div>
+                <div class="parse-result" id="parseResult"></div>
             </div>
 
             <!-- Booking Form -->
@@ -491,6 +619,224 @@
             { name: "Gulf Food", start: "2027-03-15", end: "2027-03-19", supplement: 200 },
             { name: "Eid Al Adha", start: "2027-05-16", end: "2027-05-18", supplement: 50 }
         ];
+
+        // =============================================
+        // MONTH MAPPINGS
+        // =============================================
+        const monthNames = {
+            'jan': 0, 'january': 0,
+            'feb': 1, 'february': 1,
+            'mar': 2, 'march': 2,
+            'apr': 3, 'april': 3,
+            'may': 4,
+            'jun': 5, 'june': 5,
+            'jul': 6, 'july': 6,
+            'aug': 7, 'august': 7,
+            'sep': 8, 'sept': 8, 'september': 8,
+            'oct': 9, 'october': 9,
+            'nov': 10, 'november': 10,
+            'dec': 11, 'december': 11
+        };
+
+        // =============================================
+        // PASTE & PARSE INQUIRY
+        // =============================================
+
+        function parseInquiry() {
+            const text = document.getElementById('pasteArea').value.trim();
+            const resultDiv = document.getElementById('parseResult');
+
+            if (!text) {
+                resultDiv.className = 'parse-result error';
+                resultDiv.innerHTML = '⚠️ Please paste a booking inquiry first.';
+                return;
+            }
+
+            const parsed = extractBookingInfo(text);
+            const filled = [];
+
+            // Fill check-in date
+            if (parsed.checkin) {
+                document.getElementById('checkin').value = parsed.checkin;
+                filled.push(`✅ Check-in: ${parsed.checkin}`);
+            }
+
+            // Fill check-out date
+            if (parsed.checkout) {
+                document.getElementById('checkout').value = parsed.checkout;
+                document.getElementById('checkout').min = parsed.checkin || '';
+                filled.push(`✅ Check-out: ${parsed.checkout}`);
+            }
+
+            // Fill rooms
+            if (parsed.rooms) {
+                document.getElementById('rooms').value = parsed.rooms;
+                filled.push(`✅ Rooms: ${parsed.rooms}`);
+            }
+
+            // Fill guest name
+            if (parsed.guestName) {
+                document.getElementById('guestName').value = parsed.guestName;
+                filled.push(`✅ Guest Name: ${parsed.guestName}`);
+            }
+
+            // Show result
+            if (filled.length > 0) {
+                resultDiv.className = 'parse-result success';
+                resultDiv.innerHTML = `<strong>🎉 Auto-filled ${filled.length} field(s):</strong><ul>${filled.map(f => `<li>${f}</li>`).join('')}</ul>`;
+            } else {
+                resultDiv.className = 'parse-result error';
+                resultDiv.innerHTML = '⚠️ Could not extract booking details. Please fill the form manually.';
+            }
+        }
+
+        function extractBookingInfo(text) {
+            const result = {};
+            const normalizedText = text.toLowerCase();
+
+            // ---- EXTRACT DATES ----
+
+            // Try "Stay Dates: 2 - 6 November 2026" format
+            const stayDatesMatch = text.match(/stay\s*dates?\s*[:\-–]\s*(\d{1,2})\s*[-–]\s*(\d{1,2})\s+(\w+)\s+(\d{4})/i);
+            if (stayDatesMatch) {
+                const day1 = parseInt(stayDatesMatch[1]);
+                const day2 = parseInt(stayDatesMatch[2]);
+                const month = monthNames[stayDatesMatch[3].toLowerCase()];
+                const year = parseInt(stayDatesMatch[4]);
+                if (month !== undefined) {
+                    result.checkin = formatISODate(year, month, day1);
+                    result.checkout = formatISODate(year, month, day2);
+                }
+            }
+
+            // Try separate check-in / check-out lines
+            if (!result.checkin) {
+                const checkinMatch = text.match(/(?:check\s*[-–]?\s*in|arrival\s*date|from)\s*[:\-–]\s*(.+)/i);
+                if (checkinMatch) {
+                    const parsed = parseFlexibleDate(checkinMatch[1].trim());
+                    if (parsed) result.checkin = parsed;
+                }
+            }
+
+            if (!result.checkout) {
+                const checkoutMatch = text.match(/(?:check\s*[-–]?\s*out|departure\s*date|to)\s*[:\-–]\s*(.+)/i);
+                if (checkoutMatch) {
+                    const parsed = parseFlexibleDate(checkoutMatch[1].trim());
+                    if (parsed) result.checkout = parsed;
+                }
+            }
+
+            // Try "dates: X to Y" or "X - Y" format on same line
+            if (!result.checkin) {
+                const rangeMatch = text.match(/(\d{1,2})\s*(?:st|nd|rd|th)?\s*(\w+)\s*(\d{4})?\s*[-–to]+\s*(\d{1,2})\s*(?:st|nd|rd|th)?\s*(\w+)\s*(\d{4})?/i);
+                if (rangeMatch) {
+                    const day1 = parseInt(rangeMatch[1]);
+                    const month1Name = rangeMatch[2].toLowerCase();
+                    const year1 = rangeMatch[3] ? parseInt(rangeMatch[3]) : guessYear(monthNames[month1Name]);
+                    const day2 = parseInt(rangeMatch[4]);
+                    const month2Name = rangeMatch[5].toLowerCase();
+                    const year2 = rangeMatch[6] ? parseInt(rangeMatch[6]) : guessYear(monthNames[month2Name]);
+
+                    const month1 = monthNames[month1Name];
+                    const month2 = monthNames[month2Name];
+
+                    if (month1 !== undefined && month2 !== undefined) {
+                        result.checkin = formatISODate(year1, month1, day1);
+                        result.checkout = formatISODate(year2, month2, day2);
+                    }
+                }
+            }
+
+            // ---- EXTRACT ROOMS ----
+            const roomsMatch = text.match(/(?:rooms?\s*(?:requirements?|required)?|no\.?\s*of\s*rooms?)\s*[:\-–]\s*(\d+)/i)
+                || text.match(/(\d+)\s*[-–]?\s*\d*\s*rooms?/i)
+                || text.match(/rooms?\s*[:\-–]\s*(\d+)/i);
+            if (roomsMatch) {
+                result.rooms = parseInt(roomsMatch[1]);
+            }
+
+            // ---- EXTRACT GUEST NAME ----
+            const nameMatch = text.match(/(?:guest|name|client|agent)\s*(?:name)?\s*[:\-–]\s*(.+)/i);
+            if (nameMatch) {
+                result.guestName = nameMatch[1].trim().split('\n')[0].trim();
+            }
+
+            return result;
+        }
+
+        /**
+         * Parse flexible date formats like:
+         * "20th October 2026", "15th Oct 2026", "2 November 2026", "23rd October 2026"
+         * "2026-10-20", "20/10/2026", "Oct 15, 2026"
+         */
+        function parseFlexibleDate(str) {
+            // Remove extra whitespace
+            str = str.replace(/\s+/g, ' ').trim();
+
+            // Remove anything after the date (like extra notes)
+            str = str.split('\n')[0].trim();
+
+            // Try: "20th October 2026" or "2 November 2026" or "15th Oct 2026"
+            const match1 = str.match(/(\d{1,2})\s*(?:st|nd|rd|th)?\s*[-\s]*(\w+)\s*[-\s]*(\d{4})/i);
+            if (match1) {
+                const day = parseInt(match1[1]);
+                const monthStr = match1[2].toLowerCase();
+                const year = parseInt(match1[3]);
+                const month = monthNames[monthStr];
+                if (month !== undefined) {
+                    return formatISODate(year, month, day);
+                }
+            }
+
+            // Try: "October 20, 2026" or "Oct 20 2026"
+            const match2 = str.match(/(\w+)\s+(\d{1,2})\s*,?\s*(\d{4})/i);
+            if (match2) {
+                const monthStr = match2[1].toLowerCase();
+                const day = parseInt(match2[2]);
+                const year = parseInt(match2[3]);
+                const month = monthNames[monthStr];
+                if (month !== undefined) {
+                    return formatISODate(year, month, day);
+                }
+            }
+
+            // Try: "2026-10-20" (ISO)
+            const match3 = str.match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
+            if (match3) {
+                return `${match3[1]}-${match3[2].padStart(2, '0')}-${match3[3].padStart(2, '0')}`;
+            }
+
+            // Try: "20/10/2026" or "20-10-2026" (DD/MM/YYYY)
+            const match4 = str.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+            if (match4) {
+                const day = parseInt(match4[1]);
+                const month = parseInt(match4[2]) - 1;
+                const year = parseInt(match4[3]);
+                return formatISODate(year, month, day);
+            }
+
+            return null;
+        }
+
+        function formatISODate(year, month, day) {
+            return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        }
+
+        function guessYear(month) {
+            // If month is in the past for current year, assume next year
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+            if (month < currentMonth) return currentYear + 1;
+            return currentYear;
+        }
+
+        function clearPaste() {
+            document.getElementById('pasteArea').value = '';
+            const resultDiv = document.getElementById('parseResult');
+            resultDiv.className = 'parse-result';
+            resultDiv.innerHTML = '';
+        }
 
         // =============================================
         // UTILITY FUNCTIONS
