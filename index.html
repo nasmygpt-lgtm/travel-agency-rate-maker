@@ -947,10 +947,11 @@
                 const row = document.createElement('tr');
                 if (event) row.classList.add('highlight-row');
 
+                const taxLabel = rate.season.includes('TD') ? 'TD' : 'BB';
                 row.innerHTML = `
                     <td>${formatDateDisplay(currentDate)}</td>
                     <td>${rate.season}</td>
-                    <td>AED ${rate.roomRate} + ${rate.tax}</td>
+                    <td>AED ${rate.roomRate} + ${rate.tax} (${taxLabel})</td>
                     <td>${event ? event.name + ' <span class="event-badge">EVENT</span>' : '—'}</td>
                     <td>${supplement > 0 ? 'AED ' + supplement : '—'}</td>
                     <td>${extraBeds > 0 ? 'AED ' + extraBedCost : '—'}</td>
@@ -986,7 +987,7 @@
                     <span>AED ${totalRoomCharges.toFixed(2)}</span>
                 </div>
                 <div class="summary-row">
-                    <span>Tax / Service Charge:</span>
+                    <span>Tourism Dirham (TD):</span>
                     <span>AED ${totalTax.toFixed(2)}</span>
                 </div>
                 ${totalSupplements > 0 ? `
@@ -1019,9 +1020,9 @@
 
             document.getElementById('emailGreeting').innerHTML = `
                 <p style="margin-bottom: 12px;">Dear <strong>${guestName}</strong>,</p>
-                <p style="margin-bottom: 12px;">Greetings from <strong>Grand Central Hotel, Dubai</strong>...!</p>
+                <p style="margin-bottom: 12px;">Greetings from <strong>Grand Central Hotel</strong>...!</p>
                 <p style="margin-bottom: 12px;">Thank you very much for your inquiry.</p>
-                <p style="margin-bottom: 20px;">We are pleased to offer you the following package for your stay at <strong>Grand Central Hotel</strong>:</p>
+                <p style="margin-bottom: 20px;">We are pleased to offer you the <strong>Deluxe Room</strong> at the below rates for your request:</p>
                 <table style="width: 100%; font-family: 'Segoe UI', sans-serif; font-size: 14px; margin-bottom: 15px;">
                     <tr>
                         <td style="padding: 4px 0;"><strong>Check-in:</strong></td>
