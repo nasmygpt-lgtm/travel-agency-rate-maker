@@ -45,3 +45,4 @@ Simply open `travel-rate-maker.html` in any modern web browser. No server or dep
 ## License
 
 Private — For internal use by the travel agency.
+
